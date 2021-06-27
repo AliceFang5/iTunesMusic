@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import AVFoundation
 
 class iTunesController{
     static let shared = iTunesController()
+    let player = AVPlayer()
+
 //    let baseURL = URL(string: "https://itunes.apple.com/")!
 //    if let urlStr = "https://itunes.apple.com/search?term=周杰倫&media=music".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let url = URL(string: urlStr){
     
@@ -46,5 +49,12 @@ class iTunesController{
             }
         }
         task.resume()
+    }
+    
+    func playPreviewURL(_ url:URL){
+        print(#function)
+        let playerItem = AVPlayerItem(url: url)
+        player.replaceCurrentItem(with: playerItem)
+        player.play()
     }
 }

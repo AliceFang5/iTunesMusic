@@ -15,6 +15,7 @@ struct SongResults : Decodable {
 struct Song : Decodable {
     let trackName: String?
     let collectionName: String?
+    let artistName: String?
     let previewUrl: URL?
     let artworkUrl100: URL?
     let longDescription: String?

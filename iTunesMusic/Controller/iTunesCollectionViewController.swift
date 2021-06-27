@@ -12,11 +12,13 @@ class iTunesCollectionViewController: UICollectionViewController {
     var songList = [Song]()
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         title = "iTunes Music"
         insertSearchBar()
         initCollectionViewFlowLayout()
         collectionView.register(UINib(nibName: K.iTunesCellNibName, bundle: nil), forCellWithReuseIdentifier: K.iTunesCellIdentifier)
+        
     }
     
     func initCollectionViewFlowLayout(){
@@ -50,6 +52,10 @@ class iTunesCollectionViewController: UICollectionViewController {
 
     // MARK: UICollectionViewDelegate
 
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let url = songList[indexPath.row].previewUrl else { return }
+        iTunesController.shared.playPreviewURL(url)
+    }
 
 }
 
