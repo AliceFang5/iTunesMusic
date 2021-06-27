@@ -14,26 +14,25 @@ class iTunesCell: UICollectionViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     
-    static let width = floor(UIScreen.main.bounds.width - 20)
+    static let width = floor(UIScreen.main.bounds.width - CGFloat(K.spacing * 2))
     
     override func awakeFromNib() {
         super.awakeFromNib()
         widthConstraint.constant = Self.width
-//        print(widthConstraint.constant)
-//        print(descriptionLabel.frame.width)
     }
     
     func update(withSong song:Song){
         nameLabel.text = song.trackName
+        descriptionLabel.text = song.longDescription
+        
         songImage.image = UIImage(systemName: "photo")
         songImage.contentMode = .scaleAspectFit
         guard let url = song.artworkUrl100 else { return }
         iTunesController.shared.fetchImageWithURL(url) { (image) in
             DispatchQueue.main.async {
                 self.songImage.image = image
-                self.songImage.contentMode = .scaleAspectFit
+                self.songImage.contentMode = .scaleAspectFill
             }
         }
     }

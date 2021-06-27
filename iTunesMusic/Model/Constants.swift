@@ -11,4 +11,5 @@ struct K {
     static let collectionRowNunber = 1
     static let collectionInteritemSpacing = 0
     static let collectionLineSpacing = 10
+    static let spacing = 10
 }
