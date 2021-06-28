@@ -11,16 +11,30 @@ import AVFoundation
 class iTunesController{
     static let shared = iTunesController()
     let player = AVPlayer()
+    let baseUrlString = "https://itunes.apple.com/"
 
-//    let baseURL = URL(string: "https://itunes.apple.com/")!
-//    if let urlStr = "https://itunes.apple.com/search?term=周杰倫&media=music".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let url = URL(string: urlStr){
-    
-    func fetchiTunesMusic(withSearch search:String, completion: @escaping ([Song]?) -> Void){
-//        let url = baseURL.appendingPathComponent("search?term=\(search)")
-//        print(url)
+    func fetchiTunesMusic(withSearch searchString:String, completion: @escaping ([Song]?) -> Void){
+        var queries = [String:String]()
+        queries["term"] = searchString
+        //may add other queries in the future, like: media, country...etc
+//        queries["term"] = "告五人"
+//        queries["media"] = "music"
+//        queries["country"] = "tw"
         
-        let urlStr = "https://itunes.apple.com/search?term=\(search)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        guard let url = URL(string: urlStr) else { return }
+        let encodingString = baseUrlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        let searchUrlString = encodingString?.appending("search")
+        guard let searchUrl = URL(string: searchUrlString ?? "") else {
+            print("URL generate fail")
+            return
+        }
+        var component = URLComponents(url: searchUrl, resolvingAgainstBaseURL: true)!
+        component.queryItems = queries.map{
+            URLQueryItem(name: $0.key, value: $0.value)
+        }
+        guard let url = component.url else {
+            print("URL add queryItems fail")
+            return
+        }
         print(url)
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
@@ -52,7 +66,6 @@ class iTunesController{
     }
     
     func playPreviewURL(_ url:URL){
-        print(#function)
         let playerItem = AVPlayerItem(url: url)
         player.replaceCurrentItem(with: playerItem)
         player.play()

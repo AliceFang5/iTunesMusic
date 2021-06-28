@@ -10,7 +10,6 @@
 		6476DB192685D63E005F1A2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6476DB182685D63E005F1A2A /* AppDelegate.swift */; };
 		6476DB1B2685D63E005F1A2A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6476DB1A2685D63E005F1A2A /* SceneDelegate.swift */; };
 		6476DB202685D63E005F1A2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6476DB1E2685D63E005F1A2A /* Main.storyboard */; };
-		6476DB232685D63E005F1A2A /* iTunesMusic.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6476DB212685D63E005F1A2A /* iTunesMusic.xcdatamodeld */; };
 		6476DB252685D63F005F1A2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6476DB242685D63F005F1A2A /* Assets.xcassets */; };
 		6476DB282685D63F005F1A2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6476DB262685D63F005F1A2A /* LaunchScreen.storyboard */; };
 		6476DB312685D6F5005F1A2A /* iTunesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6476DB302685D6F5005F1A2A /* iTunesCollectionViewController.swift */; };
@@ -26,7 +25,6 @@
 		6476DB182685D63E005F1A2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6476DB1A2685D63E005F1A2A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6476DB1F2685D63E005F1A2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		6476DB222685D63E005F1A2A /* iTunesMusic.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iTunesMusic.xcdatamodel; sourceTree = "<group>"; };
 		6476DB242685D63F005F1A2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6476DB272685D63F005F1A2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6476DB292685D63F005F1A2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -102,7 +100,6 @@
 		6476DB3A2685D769005F1A2A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6476DB212685D63E005F1A2A /* iTunesMusic.xcdatamodeld */,
 				6476DB462685DAF1005F1A2A /* Model.swift */,
 				6476DB422685D81A005F1A2A /* Constants.swift */,
 			);
@@ -182,7 +179,6 @@
 			files = (
 				6476DB312685D6F5005F1A2A /* iTunesCollectionViewController.swift in Sources */,
 				6476DB3D2685D7B0005F1A2A /* iTunesCell.swift in Sources */,
-				6476DB232685D63E005F1A2A /* iTunesMusic.xcdatamodeld in Sources */,
 				6476DB192685D63E005F1A2A /* AppDelegate.swift in Sources */,
 				6476DB432685D81A005F1A2A /* Constants.swift in Sources */,
 				6476DB1B2685D63E005F1A2A /* SceneDelegate.swift in Sources */,
@@ -389,19 +385,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		6476DB212685D63E005F1A2A /* iTunesMusic.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				6476DB222685D63E005F1A2A /* iTunesMusic.xcdatamodel */,
-			);
-			currentVersion = 6476DB222685D63E005F1A2A /* iTunesMusic.xcdatamodel */;
-			path = iTunesMusic.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 6476DB0D2685D63E005F1A2A /* Project object */;
 }

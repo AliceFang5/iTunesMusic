@@ -18,8 +18,11 @@ class iTunesCollectionViewController: UICollectionViewController {
         insertSearchBar()
         initCollectionViewFlowLayout()
         collectionView.register(UINib(nibName: K.iTunesCellNibName, bundle: nil), forCellWithReuseIdentifier: K.iTunesCellIdentifier)
-        
+        //Hide Autolayout Warning
+//        UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
     }
+    
+    // MARK: UICollectionView init
     
     func initCollectionViewFlowLayout(){
         let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout
@@ -45,7 +48,7 @@ class iTunesCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.iTunesCellIdentifier, for: indexPath) as! iTunesCell
     
-        cell.update(withSong: songList[indexPath.row])
+        cell.update(withSong: songList[indexPath.row], collectionView: collectionView, cell: cell, indexPath: indexPath)
     
         return cell
     }
@@ -53,17 +56,24 @@ class iTunesCollectionViewController: UICollectionViewController {
     // MARK: UICollectionViewDelegate
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let url = songList[indexPath.row].previewUrl else { return }
+        guard let url = songList[indexPath.row].previewUrl else {
+//            print("previewUrl fail")
+            return
+        }
         iTunesController.shared.playPreviewURL(url)
     }
 
 }
 
+//MARK: - UISearchResultsUpdating Delegate
+
 extension iTunesCollectionViewController: UISearchResultsUpdating{
     func updateSearchResults(for searchController: UISearchController) {
-        let searchString = searchController.searchBar.text!
+        guard let searchString = searchController.searchBar.text, searchString != "" else {
+//            print("SearchBar.text is empty, do not search")
+            return
+        }
 //        print("\(#function):\(searchString)")
-        guard searchString != "" else { return }
         iTunesController.shared.fetchiTunesMusic(withSearch: searchString) { (songList) in
             if let songList = songList{
                 DispatchQueue.main.async {
@@ -82,5 +92,6 @@ extension iTunesCollectionViewController: UISearchResultsUpdating{
         searchBar.searchBar.placeholder = "Search..."
         definesPresentationContext = true
         navigationItem.searchController = searchBar
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
 }

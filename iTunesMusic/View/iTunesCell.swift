@@ -12,7 +12,6 @@ class iTunesCell: UICollectionViewCell {
     @IBOutlet weak var songImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var playButton: UIButton!
     
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     
@@ -23,8 +22,9 @@ class iTunesCell: UICollectionViewCell {
         widthConstraint.constant = Self.width
     }
     
-    func update(withSong song:Song){
+    func update(withSong song:Song, collectionView: UICollectionView, cell: UICollectionViewCell, indexPath: IndexPath){
         nameLabel.text = song.trackName
+        //if longDescription is nil, display artistName instead
         descriptionLabel.text = song.longDescription ?? song.artistName
         
         songImage.image = UIImage(systemName: "photo")
@@ -32,15 +32,11 @@ class iTunesCell: UICollectionViewCell {
         guard let url = song.artworkUrl100 else { return }
         iTunesController.shared.fetchImageWithURL(url) { (image) in
             DispatchQueue.main.async {
+                //check indexPath before update image
+                if let currentIndexPath = collectionView.indexPath(for: cell), currentIndexPath != indexPath { return }
                 self.songImage.image = image
                 self.songImage.contentMode = .scaleAspectFill
             }
         }
-    }
-
-    @IBAction func playButtonPressed(_ sender: UIButton) {
-        let index = sender.tag
-        print(index)
-//        iTunesController.shared.fetchPreviewWithURL()
     }
 }
