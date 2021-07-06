@@ -74,11 +74,22 @@ extension iTunesCollectionViewController: UISearchResultsUpdating{
             return
         }
 //        print("\(#function):\(searchString)")
-        iTunesController.shared.fetchiTunesMusic(withSearch: searchString) { (songList) in
-            if let songList = songList{
+        iTunesController.shared.fetchiTunesMusic(withSearch: searchString) { (result) in
+            
+            switch result{
+            case .success(let songList):
                 DispatchQueue.main.async {
                     self.songList = songList
                     self.collectionView.reloadData()
+                }
+            case .failure(let networkError):
+                switch networkError {
+                case .invalidUrl, .invalidData, .invalidResponse:
+                    print(networkError)
+                case .requestFailed(let error):
+                    print(networkError, error)
+                case .decodingError(let error):
+                    print(networkError, error)
                 }
             }
         }

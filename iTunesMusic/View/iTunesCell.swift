@@ -30,12 +30,22 @@ class iTunesCell: UICollectionViewCell {
         songImage.image = UIImage(systemName: "photo")
         songImage.contentMode = .scaleAspectFit
         guard let url = song.artworkUrl100 else { return }
-        iTunesController.shared.fetchImageWithURL(url) { (image) in
-            DispatchQueue.main.async {
-                //check indexPath before update image
-                if let currentIndexPath = collectionView.indexPath(for: cell), currentIndexPath != indexPath { return }
-                self.songImage.image = image
-                self.songImage.contentMode = .scaleAspectFill
+        iTunesController.shared.fetchImageWithURL(url) { (result) in
+            switch result{
+            case .success(let image):
+                    DispatchQueue.main.async {
+                        //check indexPath before update image
+                        if let currentIndexPath = collectionView.indexPath(for: cell), currentIndexPath != indexPath { return }
+                        self.songImage.image = image
+                        self.songImage.contentMode = .scaleAspectFill
+                    }
+            case .failure(let networkError):
+                switch networkError {
+                case .invalidUrl, .invalidData, .invalidResponse:
+                    print(networkError)
+                case .requestFailed(let error), .decodingError(let error):
+                    print(networkError, error)
+                }
             }
         }
     }
