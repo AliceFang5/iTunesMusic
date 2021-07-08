@@ -100,5 +100,10 @@ class iTunesController{
         let playerItem = AVPlayerItem(url: url)
         player.replaceCurrentItem(with: playerItem)
         player.play()
+//        player.
+    }
+    
+    func stopPlayMusic(){
+        player.pause()
     }
 }

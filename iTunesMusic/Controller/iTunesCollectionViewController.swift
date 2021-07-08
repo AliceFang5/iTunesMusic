@@ -10,6 +10,7 @@ import UIKit
 class iTunesCollectionViewController: UICollectionViewController {
     
     var songList = [Song]()
+    var currentPlayingItemButton:UIButton?
 
     override func viewDidLoad() {
         
@@ -18,6 +19,12 @@ class iTunesCollectionViewController: UICollectionViewController {
         insertSearchBar()
         initCollectionViewFlowLayout()
         collectionView.register(UINib(nibName: K.iTunesCellNibName, bundle: nil), forCellWithReuseIdentifier: K.iTunesCellIdentifier)
+        NotificationCenter.default.addObserver(forName: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { (notification) in
+            print("AVPlayerItemDidPlayToEndTime")
+//            self.currentPlayingItemButton?.setImage(UIImage(systemName: "play.fill"), for: .normal)
+            self.currentPlayingItemButton = nil
+            self.collectionView.reloadData()
+        }
         //Hide Autolayout Warning
 //        UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
     }
@@ -46,8 +53,17 @@ class iTunesCollectionViewController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print(#function, indexPath.row)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.iTunesCellIdentifier, for: indexPath) as! iTunesCell
     
+        cell.playButton.tag = indexPath.row
+        cell.playButton.addTarget(self, action: #selector(playButtonGroupAction(sender:)), for: .touchUpInside)
+
+        if cell.playButton.tag == currentPlayingItemButton?.tag{
+            cell.playButton.setImage(UIImage(systemName: "stop.circle"), for: .normal)
+        }else{
+            cell.playButton.setImage(UIImage(systemName: "play.circle"), for: .normal)
+        }
         cell.update(withSong: songList[indexPath.row], collectionView: collectionView, cell: cell, indexPath: indexPath)
     
         return cell
@@ -55,12 +71,30 @@ class iTunesCollectionViewController: UICollectionViewController {
 
     // MARK: UICollectionViewDelegate
 
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let url = songList[indexPath.row].previewUrl else {
-//            print("previewUrl fail")
+//    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//    }
+    
+    //MARK: - play music function
+    
+    @objc func playButtonGroupAction(sender:UIButton){
+        print(#function, sender.tag)
+        currentPlayingItemButton?.setImage(UIImage(systemName: "play.circle"), for: .normal)
+        
+        if sender == currentPlayingItemButton{
+            //stop play music
+            iTunesController.shared.stopPlayMusic()
+            currentPlayingItemButton = nil
+            return
+        }
+        
+        //play music with url
+        guard let url = songList[sender.tag].previewUrl else {
+            print("previewUrl fail")
             return
         }
         iTunesController.shared.playPreviewURL(url)
+        sender.setImage(UIImage(systemName: "stop.circle"), for: .normal)
+        currentPlayingItemButton = sender
     }
 
 }
@@ -75,7 +109,6 @@ extension iTunesCollectionViewController: UISearchResultsUpdating{
         }
 //        print("\(#function):\(searchString)")
         iTunesController.shared.fetchiTunesMusic(withSearch: searchString) { (result) in
-            
             switch result{
             case .success(let songList):
                 DispatchQueue.main.async {
@@ -98,10 +131,10 @@ extension iTunesCollectionViewController: UISearchResultsUpdating{
     func insertSearchBar(){
         let searchBar = UISearchController(searchResultsController: nil)
         searchBar.searchResultsUpdater = self
-        searchBar.obscuresBackgroundDuringPresentation = true
+        searchBar.obscuresBackgroundDuringPresentation = false
         searchBar.hidesNavigationBarDuringPresentation = false
         searchBar.searchBar.placeholder = "Search..."
-        definesPresentationContext = true
+//        definesPresentationContext = true
         navigationItem.searchController = searchBar
         navigationItem.hidesSearchBarWhenScrolling = false
     }

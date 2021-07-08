@@ -12,6 +12,7 @@ class iTunesCell: UICollectionViewCell {
     @IBOutlet weak var songImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var playButton: UIButton!
     
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     
@@ -49,4 +50,5 @@ class iTunesCell: UICollectionViewCell {
             }
         }
     }
+    
 }
