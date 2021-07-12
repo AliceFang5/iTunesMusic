@@ -67,7 +67,6 @@
                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="LqT-kf-cw9" secondAttribute="bottom" constant="10" id="S1x-sz-lMu"/>
                             <constraint firstAttribute="trailing" secondItem="ebT-wS-r9D" secondAttribute="trailing" constant="10" id="SdR-k7-TIO"/>
                             <constraint firstItem="LqT-kf-cw9" firstAttribute="top" secondItem="Buu-HC-GvO" secondAttribute="top" constant="10" id="gJ3-Kn-hXT"/>
-                            <constraint firstAttribute="width" constant="236" id="jln-C2-VZZ"/>
                             <constraint firstItem="ebT-wS-r9D" firstAttribute="leading" secondItem="LqT-kf-cw9" secondAttribute="trailing" constant="10" id="vdW-7n-wTD"/>
                             <constraint firstItem="ebT-wS-r9D" firstAttribute="top" secondItem="LqT-kf-cw9" secondAttribute="top" id="vu1-gw-b4s"/>
                             <constraint firstItem="LqT-kf-cw9" firstAttribute="leading" secondItem="Buu-HC-GvO" secondAttribute="leading" constant="10" id="wCv-L1-qi8"/>
@@ -93,7 +92,6 @@
                 <outlet property="nameLabel" destination="fPc-te-aVQ" id="fHZ-Vu-3Ov"/>
                 <outlet property="playButton" destination="Bju-d4-1kT" id="UAG-fw-mUa"/>
                 <outlet property="songImage" destination="zQd-dg-Fzu" id="UFV-5D-Ua6"/>
-                <outlet property="widthConstraint" destination="jln-C2-VZZ" id="GsN-2L-BS2"/>
             </connections>
             <point key="canvasLocation" x="23.188405797101453" y="70.3125"/>
         </collectionViewCell>

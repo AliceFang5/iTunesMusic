@@ -7,7 +7,7 @@
 
 import UIKit
 
-class iTunesCollectionViewController: UICollectionViewController {
+class iTunesCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var songList = [Song]()
     var currentPlayingItemButton:UIButton?
@@ -33,7 +33,11 @@ class iTunesCollectionViewController: UICollectionViewController {
     
     func initCollectionViewFlowLayout(){
         let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout
-        flowLayout?.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+//        flowLayout?.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+//        let width = floor(UIScreen.main.bounds.width - CGFloat(K.spacing * 2))
+//        let height = width
+//        flowLayout?.itemSize = CGSize(width: width, height: height)
+        flowLayout?.estimatedItemSize = .zero
         flowLayout?.minimumLineSpacing = CGFloat(K.collectionLineSpacing)
         flowLayout?.minimumInteritemSpacing = CGFloat(K.collectionInteritemSpacing)
         let spacing = CGFloat(K.spacing)
@@ -54,6 +58,7 @@ class iTunesCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         print(#function, indexPath.row)
+        print(songList[indexPath.row].trackName)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.iTunesCellIdentifier, for: indexPath) as! iTunesCell
     
         cell.playButton.tag = indexPath.row
@@ -67,6 +72,30 @@ class iTunesCollectionViewController: UICollectionViewController {
         cell.update(withSong: songList[indexPath.row], collectionView: collectionView, cell: cell, indexPath: indexPath)
     
         return cell
+    }
+    
+    //MARK: - UICollectionViewDelegateFlowLayout
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        print(#function)
+        let basicWidth = floor(UIScreen.main.bounds.width - CGFloat(K.spacing * 2))
+        let basicHeight:CGFloat = 130//image-80, button-25, padding-10-5-10
+
+        if let longDescription = songList[indexPath.row].longDescription{
+            let approximateWidthOfDescriptionTextView = basicWidth - 110//image and padding
+            let size = CGSize(width: approximateWidthOfDescriptionTextView, height: 1000)
+            let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]
+            let estimatedFrame = NSString(string: longDescription).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+            
+            // if longDescription is vert short, will cause image to be cut
+            if estimatedFrame.height < basicHeight{
+                return CGSize(width: basicWidth, height: basicHeight)
+            }
+            
+            return CGSize(width: basicWidth, height: estimatedFrame.height + 50)
+        }else{
+            return CGSize(width: basicWidth, height: basicHeight)
+        }
     }
 
     // MARK: UICollectionViewDelegate

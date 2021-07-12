@@ -14,13 +14,8 @@ class iTunesCell: UICollectionViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
     
-    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
-    
-    static let width = floor(UIScreen.main.bounds.width - CGFloat(K.spacing * 2))
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-        widthConstraint.constant = Self.width
     }
     
     func update(withSong song:Song, collectionView: UICollectionView, cell: UICollectionViewCell, indexPath: IndexPath){
